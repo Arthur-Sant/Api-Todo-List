@@ -1,4 +1,4 @@
-package br.com.arthursant.todolist.task;
+package br.com.arthursant.todolist.modules.task;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
-  
+
   @Autowired
   private TaskRepository taskRepository;
 
   @PostMapping("/")
-  public ResponseEntity<TaskModel> create(@RequestBody TaskModel taskModel){
+  public ResponseEntity<TaskModel> create(
+      @RequestBody TaskModel taskModel,
+      HttpServletRequest request) {
 
     var task = this.taskRepository.save(taskModel);
 

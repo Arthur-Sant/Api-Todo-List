@@ -1,4 +1,4 @@
-package br.com.arthursant.todolist.user;
+package br.com.arthursant.todolist.modules.user;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -14,12 +14,12 @@ import lombok.Data;
 @Data
 @Entity(name = "tb_users")
 public class UserModel {
-  
+
   @Id
   @GeneratedValue(generator = "UUID")
   private UUID id;
 
-  @Column(unique = true )
+  @Column(unique = true)
   private String username;
   private String password;
   private String name;
