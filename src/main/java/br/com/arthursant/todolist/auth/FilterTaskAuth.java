@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import br.com.arthursant.todolist.modules.user.UserRepository;
+import br.com.arthursant.todolist.modules.user.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +28,7 @@ public class FilterTaskAuth extends OncePerRequestFilter {
 
     var servletPath = request.getServletPath();
 
-    if (servletPath.equals("/tasks/")) {
+    if (servletPath.contains("/tasks")) {
       var authorization = request.getHeader("Authorization");
 
       var authEncoded = authorization.substring("Basic".length()).trim();
@@ -52,7 +52,7 @@ public class FilterTaskAuth extends OncePerRequestFilter {
         var passwordVerify = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword().toCharArray());
 
         if (passwordVerify.verified) {
-          request.setAttribute("idUser", user.getId());
+          request.setAttribute("userId", user.getId());
 
           filterChain.doFilter(request, response);
         } else {

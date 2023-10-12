@@ -1,4 +1,4 @@
-package br.com.arthursant.todolist.task;
+package br.com.arthursant.todolist.modules.task.entities;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -14,8 +14,8 @@ import lombok.Data;
 
 @Data
 @Entity(name = "tb_tasks")
-public class TaskModel {
-  
+public class Task {
+
   @Id
   @GeneratedValue(generator = "UUID")
   private UUID id;
