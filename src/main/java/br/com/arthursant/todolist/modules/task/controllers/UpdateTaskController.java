@@ -5,39 +5,34 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.arthursant.todolist.modules.task.entities.Task;
-import br.com.arthursant.todolist.modules.task.services.CreateTaskService;
+import br.com.arthursant.todolist.modules.task.services.UpdateTaskService;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-public class CreateTaskController {
+public class UpdateTaskController {
 
   @Autowired
-  private CreateTaskService taskService;
+  private UpdateTaskService taskService;
 
-  @PostMapping("/tasks")
-  public ResponseEntity create(
+  @PutMapping("/tasks/{id}")
+  public ResponseEntity updateTask(
       @RequestBody Task task,
-      HttpServletRequest request) {
-
-    var userId = request.getAttribute("userId");
-
-    task.setIdUser((UUID) userId);
+      @PathVariable UUID id) {
 
     try {
 
-      taskService.create(task);
-
-      return ResponseEntity.status(HttpStatus.CREATED).body("");
+      var taskUpdated = this.taskService.updateTask(task, id);
+      return ResponseEntity.status(HttpStatus.OK).body(taskUpdated);
 
     } catch (Exception exception) {
-
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
-
     }
+
   }
 }
