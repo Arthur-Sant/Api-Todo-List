@@ -21,13 +21,8 @@ public class FindTasksByAuthController {
   public ResponseEntity findTasksByAuth(HttpServletRequest request) {
     var userId = request.getAttribute("userId");
 
-    try {
-      var tasks = taskService.findByUserId((UUID) userId);
+    var tasks = taskService.findByUserId((UUID) userId);
 
-      return ResponseEntity.status(HttpStatus.OK).body(tasks);
-
-    } catch (Exception exception) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
-    }
+    return ResponseEntity.status(HttpStatus.OK).body(tasks);
   }
 }

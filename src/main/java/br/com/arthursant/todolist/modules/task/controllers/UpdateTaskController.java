@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.arthursant.todolist.modules.task.entities.Task;
 import br.com.arthursant.todolist.modules.task.services.UpdateTaskService;
-import jakarta.servlet.http.HttpServletRequest;
+import br.com.arthursant.todolist.shared.exceptions.AppErrorException;
 
 @RestController
 public class UpdateTaskController {
@@ -23,16 +23,9 @@ public class UpdateTaskController {
   @PutMapping("/tasks/{id}")
   public ResponseEntity updateTask(
       @RequestBody Task task,
-      @PathVariable UUID id) {
+      @PathVariable UUID id) throws AppErrorException {
 
-    try {
-
-      var taskUpdated = this.taskService.updateTask(task, id);
-      return ResponseEntity.status(HttpStatus.OK).body(taskUpdated);
-
-    } catch (Exception exception) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
-    }
-
+    var taskUpdated = this.taskService.updateTask(task, id);
+    return ResponseEntity.status(HttpStatus.OK).body(taskUpdated);
   }
 }

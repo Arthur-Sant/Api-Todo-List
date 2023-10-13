@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.arthursant.todolist.modules.task.entities.Task;
 import br.com.arthursant.todolist.modules.task.services.CreateTaskService;
+import br.com.arthursant.todolist.shared.exceptions.AppErrorException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -22,22 +23,14 @@ public class CreateTaskController {
   @PostMapping("/tasks")
   public ResponseEntity create(
       @RequestBody Task task,
-      HttpServletRequest request) {
+      HttpServletRequest request) throws AppErrorException {
 
     var userId = request.getAttribute("userId");
 
     task.setIdUser((UUID) userId);
 
-    try {
+    taskService.create(task);
 
-      taskService.create(task);
-
-      return ResponseEntity.status(HttpStatus.CREATED).body("");
-
-    } catch (Exception exception) {
-
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
-
-    }
+    return ResponseEntity.status(HttpStatus.CREATED).body("");
   }
 }

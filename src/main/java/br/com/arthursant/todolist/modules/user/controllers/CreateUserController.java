@@ -12,6 +12,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import br.com.arthursant.todolist.modules.user.entities.User;
 import br.com.arthursant.todolist.modules.user.repositories.UserRepository;
 import br.com.arthursant.todolist.modules.user.services.CreateUserService;
+import br.com.arthursant.todolist.shared.exceptions.AppErrorException;
 
 @RestController
 public class CreateUserController {
@@ -20,18 +21,10 @@ public class CreateUserController {
   private CreateUserService userService;
 
   @PostMapping("/users")
-  public ResponseEntity create(@RequestBody User user) {
+  public ResponseEntity create(@RequestBody User user) throws AppErrorException {
 
-    try {
-      userService.create(user);
+    userService.create(user);
 
-      return ResponseEntity.status(HttpStatus.CREATED).body("");
-
-    } catch (Exception exception) {
-
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
-
-    }
-
+    return ResponseEntity.status(HttpStatus.CREATED).body("");
   }
 }
